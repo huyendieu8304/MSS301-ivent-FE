@@ -3,10 +3,13 @@ import {useState} from "react";
 import {useAuth} from "../context/AuthContext.jsx";
 import authSettingApi from "../api/service/authSettingApi.jsx";
 import {useNavigate} from "react-router";
+import {getUserDataInLocalStorage} from "../common/CommonFunction.jsx";
+import {CLIENT_ID_KEYCLOAK, CLIENT_SECRET_KEYCLOAK, CONSTANTS} from "../common/Constant.jsx";
 
 const AvatarMenu = ({setIsLoading}) => {
     const [anchorElUser, setAnchorElUser] = useState(null);
-    const {avatarUri, logout} = useAuth();
+    const {logout} = useAuth();
+    const { avatarUrl } = getUserDataInLocalStorage() || {};
     const theme = useTheme();
     const navigate = useNavigate();
 
@@ -20,7 +23,12 @@ const AvatarMenu = ({setIsLoading}) => {
 
     const handleLogout = () => {
         handleCloseUserMenu();
-        authSettingApi.logout(LogoutSuccess, LogoutFail);
+        const body= {
+            client_id: CLIENT_ID_KEYCLOAK,
+            client_secret: CLIENT_SECRET_KEYCLOAK,
+            refresh_token: localStorage.getItem(CONSTANTS.REFRESH_TOKEN),
+        }
+        authSettingApi.logout(body, LogoutSuccess, LogoutFail);
         setIsLoading(true);
     }
 
@@ -44,7 +52,10 @@ const AvatarMenu = ({setIsLoading}) => {
             <Box sx={{flexGrow: 0}}>
                 <Tooltip title="Tùy chọn" arrow>
                     <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                        <Avatar alt="user avatar" src={avatarUri}/>
+                        <Avatar
+                            alt="user avatar"
+                            src={avatarUrl}
+                        />
                     </IconButton>
                 </Tooltip>
                 <Menu

@@ -9,11 +9,12 @@ import {useNavigate} from "react-router";
 import MascotSvg from "../../component/svg/MascotSvg.jsx";
 import {messageService} from "../../service/MessageService.jsx";
 import Messages from "../../common/Message.jsx";
-import {MESSAGE_TYPES, ROLES} from "../../common/Constant.jsx";
+import {CONSTANTS, MESSAGE_TYPES, ROLES} from "../../common/Constant.jsx";
 import ValidatedIconTextField from "../../component/validateInput/ValidateIconTextField.jsx";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import ConfirmModal from "../../component/ConfirmModal.jsx";
 import accountSettingApi from "../../api/service/accountSettingApi.jsx";
+import {checkRole} from "../../common/CommonFunction.jsx";
 
 const LoginPage = () => {
     const theme = useTheme();
@@ -31,13 +32,13 @@ const LoginPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(authorities === ROLES.USER){
+        if(checkRole(authorities, ROLES.USER)){
             navigate("/");
         }
-        if(authorities === ROLES.ADMIN){
+        if(checkRole(authorities, ROLES.ADMIN)){
             navigate("/admin/statistic");
         }
-        if(authorities === ROLES.OPERATOR){
+        if(checkRole(authorities, ROLES.OPERATOR)){
             navigate("/operator");
         }
     },[authorities])
@@ -89,21 +90,42 @@ const LoginPage = () => {
             return;
         }
         const body = {
-            email: formFields.email.value,
+            username: formFields.email.value,
             password: formFields.password.value,
+            client_id: "ivent-authorization-code",
+            client_secret: "ytCwhSbHXC10jVxg7HbGbfG8USLEx8x7",
+            grant_type: "password",
+            scope: "openid email profile"
         }
         setIsLoading(true);
         authSettingApi.login(body, loginSuccess, loginFailure);
     };
     const loginSuccess = (data) => {
-        login(data.jwtToken);
+        login(data.access_token, data.refresh_token);
         messageService.showMessage(Messages.MSG_I_00001, MESSAGE_TYPES.INFO);
-        setIsLoading(false);
+        accountSettingApi.userProfile(getProfileSuccess, getProfileFail);
     }
     const loginFailure = (error) => {
         console.log(error);
         setIsLoading(false);
+        messageService.showMessage(error.response.data.error_description, MESSAGE_TYPES.ERROR);
+    }
+    const getProfileSuccess = (data) => {
+        const userProfile = {
+            id: data.id,
+            fullName: data.fullName,
+            email: data.email,
+            role: data.role,
+            avatarUrl: data.avatarUri
+        };
+        localStorage.setItem(CONSTANTS.USER_PROFILE, JSON.stringify(userProfile));
+        messageService.showMessage(Messages.MSG_I_00003, MESSAGE_TYPES.INFO);
+        setIsLoading(false);
+    }
+    const getProfileFail = (error) => {
+        console.log(error);
         messageService.showMessage(error.response.data.message, MESSAGE_TYPES.ERROR);
+        setIsLoading(false);
     }
 
     const handleForgotPassword = () => {
@@ -201,7 +223,8 @@ const LoginPage = () => {
                             // fullWidth
                             sx={{textTransform: "none", marginTop: 1, marginBottom: 3}}
                             startIcon={<img src="https://developers.google.com/identity/images/g-logo.png" alt="G" style={{width: 20, height: 20}} />}
-                            href="http://localhost:8080/ivent/oauth2/authorization/google"
+                            href="http://localhost:8072/api/v1/account/oauth2/authorization/google"
+                            // href="http://localhost:8080/ivent/oauth2/authorization/google"
                         >
                             <Typography variant="body1" component="div" sx={{textAlign: "center"}}>
                                 Đăng nhập bằng Google

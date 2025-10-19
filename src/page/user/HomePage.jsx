@@ -13,10 +13,9 @@ const HomePage = () => {
     const [categoryEvents, setCategoryEvents] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
-
     useEffect(() => {
-        setIsLoading(true);
-        eventApi.getHomePageData(getDataSuccess, getEventDetailFailure)
+        // setIsLoading(true);
+        // eventApi.getHomePageData(getDataSuccess, getEventDetailFailure)
     }, []);
 
     const getDataSuccess = (data) => {

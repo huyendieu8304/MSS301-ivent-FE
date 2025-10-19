@@ -1,5 +1,6 @@
 const PATH_URL = "/api/v1";
-const PATH_AUTH_URL = PATH_URL + "/auth";
+const PATH_ACCOUNT_SERVICE_URL = "/api/v1/account";
+
 const PATH_EVENT_PUBLIC_URL = PATH_URL + "/event/public";
 const PATH_ADMIN = PATH_URL + "/admin";
 const PATH_CATEGORY = PATH_URL + "/category";
@@ -8,17 +9,21 @@ const PATH_PAYMENT = PATH_URL + "/payment";
 const PATH_OPERATOR = PATH_URL + "/operator";
 
 export const url = {
-    //AUTHENTICATE + user information
-    login: PATH_AUTH_URL + "/login",
-    logout: PATH_AUTH_URL + "/logout",
-    registerUser: PATH_URL + "/register-user",
-    validateEmailToken: PATH_URL + "/validate-email-token",
-    resendEmailToken: PATH_URL + "/resend-validate-email-token",
-    userProfile: PATH_URL + "/profile",
-    updateProfile: PATH_URL + "/update-profile",
-    forgotPasswordRequest: PATH_URL + "/forgot-password",
-    setPassword: PATH_URL + "/set-password",
-    changePassword: PATH_URL + "/change-password",
+    //ACCOUNT SERVICE
+    registerUser: PATH_ACCOUNT_SERVICE_URL + "/register-user",
+    validateEmailToken: PATH_ACCOUNT_SERVICE_URL + "/validate-email-token",
+    resendEmailToken: PATH_ACCOUNT_SERVICE_URL + "/resend-validate-email-token",
+    userProfile: PATH_ACCOUNT_SERVICE_URL + "/profile",
+    updateProfile: PATH_ACCOUNT_SERVICE_URL + "/update-profile",
+    forgotPasswordRequest: PATH_ACCOUNT_SERVICE_URL + "/forgot-password",
+    setPassword: PATH_ACCOUNT_SERVICE_URL + "/set-password",
+    changePassword: PATH_ACCOUNT_SERVICE_URL + "/change-password",
+    //KEYCLOAK
+    getUserTokenFromKeycloak: "http://localhost:7000/realms/master/protocol/openid-connect/token",
+    logoutKeycloak: "http://localhost:7000/realms/master/protocol/openid-connect/logout",
+
+
+
     //EVENT - USER dùng
     searchEvent: PATH_EVENT_PUBLIC_URL + "/search",
     getMyEvents: (id, page = 0, size = 10) =>

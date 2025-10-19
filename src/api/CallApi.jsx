@@ -25,6 +25,7 @@ export const callApi = (
     successHandler,
     errorHandler,
     sendFile = false,
+    isAuthKeycloak = false,
     extraHeaders = {},
 ) => {
     const token = localStorage.getItem("access_token");
@@ -36,6 +37,9 @@ export const callApi = (
     }
     if (!sendFile) {
         headers["Content-Type"] = "application/json";
+    }
+    if (isAuthKeycloak) {
+        headers["Content-Type"] = "application/x-www-form-urlencoded";
     }
     const config = {
         params,

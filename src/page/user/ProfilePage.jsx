@@ -22,7 +22,7 @@ import {
     checkRequiredInput,
     checkValidDate
 } from "../../common/ValidateFunction.jsx";
-import {DATE_FORMAT, MESSAGE_TYPES} from "../../common/Constant.jsx";
+import {CONSTANTS, DATE_FORMAT, MESSAGE_TYPES} from "../../common/Constant.jsx";
 import accountSettingApi from "../../api/service/accountSettingApi.jsx";
 import {messageService} from "../../service/MessageService.jsx";
 import Messages from "../../common/Message.jsx";
@@ -157,7 +157,14 @@ const ProfilePage = () => {
     };
 
     const updateSuccess = (data) => {
-        login(data.jwtToken);
+        const userProfile = {
+            id: data.id,
+            fullName: data.fullName,
+            email: data.email,
+            role: data.role,
+            avatarUrl: data.avatarUri
+        };
+        localStorage.setItem(CONSTANTS.USER_PROFILE, JSON.stringify(userProfile));
         messageService.showMessage(Messages.MSG_I_00005, MESSAGE_TYPES.INFO);
         setIsLoading(false);
     }
@@ -170,7 +177,7 @@ const ProfilePage = () => {
     }
 
     const handleUploadClick = () => {
-        inputRef.current.click(); // kích file picker
+        inputRef.current.click();
     };
 
     const handleFileChange = (event) => {
@@ -310,14 +317,6 @@ const ProfilePage = () => {
                                         />
                                     </Box>
                                 </Badge>
-                                <Typography variant="body1" sx={{ textAlign: "center" }}>
-                                    <strong>Tạo ngày:</strong><br />
-                                    {subInformation.createdAt ? subInformation.createdAt : ""}
-                                </Typography>
-                                <Typography variant="body1" sx={{ textAlign: "center" }}>
-                                    <strong>Lần chỉnh sửa gần nhất:</strong><br />
-                                    {subInformation.updatedAt ? subInformation.updatedAt : ""}
-                                </Typography>
                                 {/* input file ẩn */}
                                 <input
                                     type="file"

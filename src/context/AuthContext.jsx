@@ -1,42 +1,48 @@
-import React, { createContext, useContext, useState } from "react";
-import { jwtDecode } from "jwt-decode";
+import React, {createContext, useContext, useEffect, useState} from "react";
+import {jwtDecode} from "jwt-decode";
 import {CONSTANTS} from "../common/Constant.jsx";
 
 const defaultAuthState = {
     isAuthenticated: false,
     authorities: null,
-    id: "",
     email: "",
+    username: "",
     fullName: "",
-    avatarUri: "",
-}
+};
 
 const decodeToken = (token) => {
     const result = structuredClone(defaultAuthState);
-    if (token) {
-        try {
-            const { id, email, fullName, avatarUri, authorities, exp } = jwtDecode(token);
-            const isValid = !exp || exp > Date.now() / 1000; //kiểm tra xem token hết hạn chưa
-            if (isValid) {
-                //lấy dữ liệu từ token ra
-                Object.assign(result, {
-                    isAuthenticated: true,
-                    id, email, fullName, avatarUri, authorities
-                });
-            } else {
-                localStorage.removeItem(CONSTANTS.ACCESS_TOKEN);
-            }
-        } catch (e) {
-            console.error("Invalid token", e);
-            localStorage.removeItem(CONSTANTS.ACCESS_TOKEN);
+    if (!token) return result;
+
+    try {
+        const decoded = jwtDecode(token);
+        const isValid = !decoded.exp || decoded.exp > Date.now() / 1000;
+
+        if (isValid) {
+            const realmRoles = decoded.realm_access?.roles || [];
+            const clientRoles = Object.values(decoded.resource_access || {})
+                .flatMap((r) => r.roles || []);
+
+            Object.assign(result, {
+                isAuthenticated: true,
+                authorities: [...realmRoles, ...clientRoles],
+                email: decoded.email || decoded.preferred_username || "",
+                username: decoded.preferred_username || "",
+                fullName: decoded.name || "",
+            });
+        } else {
+            localStorage.clear();
         }
+    } catch (e) {
+        console.error("Invalid token", e);
+        localStorage.clear();
     }
     return result;
-}
+};
 
 const AuthContext = createContext(undefined);
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({children}) => {
     const [authState, setAuthState] = useState(() => {
         try {
             const token = localStorage.getItem(CONSTANTS.ACCESS_TOKEN);
@@ -48,13 +54,14 @@ export const AuthProvider = ({ children }) => {
         }
     });
 
-    const login = (token) => {
-        localStorage.setItem(CONSTANTS.ACCESS_TOKEN, token);
-        setAuthState(decodeToken(token));
+    const login = (accessToken, refreshToken) => {
+        localStorage.setItem(CONSTANTS.ACCESS_TOKEN, accessToken);
+        localStorage.setItem(CONSTANTS.REFRESH_TOKEN, refreshToken);
+        setAuthState(decodeToken(accessToken));
     };
 
     const logout = () => {
-        localStorage.removeItem(CONSTANTS.ACCESS_TOKEN);
+        localStorage.clear();
         setAuthState(defaultAuthState);
         window.location.replace("/login");
     };
@@ -62,7 +69,7 @@ export const AuthProvider = ({ children }) => {
     const isTokenExpired = (token) => {
         if (!token) return true;
         try {
-            const { exp } = jwtDecode(token);
+            const {exp} = jwtDecode(token);
             return exp < Date.now() / 1000;
         } catch (e) {
             return true;
@@ -70,7 +77,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ ...authState, login, logout, isTokenExpired }}>
+        <AuthContext.Provider value={{...authState, login, logout, isTokenExpired}}>
             {children}
         </AuthContext.Provider>
     );

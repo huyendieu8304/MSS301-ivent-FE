@@ -3,6 +3,7 @@ import {useAuth} from "../context/AuthContext.jsx";
 import {Navigate, Outlet} from "react-router";
 import LoadingComponent from "./LoadingComponent.jsx";
 import Messages from "../common/Message.jsx";
+import {hasCommonRole} from "../common/CommonFunction.jsx";
 
 const ProtectedRoute = ({ allowedRole }) => {
     const { isAuthenticated, authorities, logout, isTokenExpired } = useAuth();
@@ -24,7 +25,7 @@ const ProtectedRoute = ({ allowedRole }) => {
         }
         if (isAuthenticated) {
             //check if the authorities of user has role in allowedRole or not
-            const hasRole = allowedRole.includes(authorities);
+            const hasRole = hasCommonRole(authorities, allowedRole);
             if (hasRole) {
                 setAuthFailed(false);
             } else {
