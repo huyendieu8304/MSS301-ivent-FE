@@ -9,7 +9,7 @@ import {useNavigate} from "react-router";
 import MascotSvg from "../../component/svg/MascotSvg.jsx";
 import {messageService} from "../../service/MessageService.jsx";
 import Messages from "../../common/Message.jsx";
-import {CONSTANTS, MESSAGE_TYPES, ROLES} from "../../common/Constant.jsx";
+import {CLIENT_ID_KEYCLOAK, CLIENT_SECRET_KEYCLOAK, CONSTANTS, MESSAGE_TYPES, ROLES} from "../../common/Constant.jsx";
 import ValidatedIconTextField from "../../component/validateInput/ValidateIconTextField.jsx";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import ConfirmModal from "../../component/ConfirmModal.jsx";
@@ -92,8 +92,8 @@ const LoginPage = () => {
         const body = {
             username: formFields.email.value,
             password: formFields.password.value,
-            client_id: "ivent-authorization-code",
-            client_secret: "ytCwhSbHXC10jVxg7HbGbfG8USLEx8x7",
+            client_id: CLIENT_ID_KEYCLOAK,
+            client_secret: CLIENT_SECRET_KEYCLOAK,
             grant_type: "password",
             scope: "openid email profile"
         }
