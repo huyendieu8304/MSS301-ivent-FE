@@ -3,10 +3,10 @@ const PATH_ACCOUNT_SERVICE_URL = "/api/v1/account";
 
 const PATH_EVENT_PUBLIC_URL = PATH_URL + "/event/public";
 const PATH_ADMIN = PATH_URL + "/admin";
-const PATH_CATEGORY = PATH_URL + "/category";
+const PATH_CATEGORY = PATH_URL + "/event/category";
 const PATH_MY_EVENT = PATH_URL + "/event/my-event";
 const PATH_PAYMENT = PATH_URL + "/payment";
-const PATH_OPERATOR = PATH_URL + "/operator";
+const PATH_OPERATOR = PATH_URL + "/event/operator";
 
 export const url = {
     //ACCOUNT SERVICE
@@ -26,8 +26,8 @@ export const url = {
 
     //EVENT - USER dùng
     searchEvent: PATH_EVENT_PUBLIC_URL + "/search",
-    getMyEvents: (id, page = 0, size = 10) =>
-        `${PATH_URL}/event/my_events/${id}?page=${page}&size=${size}`,
+    getMyEvents: (page = 0, size = 10) =>
+        `${PATH_URL}/event/my_events?page=${page}&size=${size}`,
     getEventDetails: (id) => PATH_EVENT_PUBLIC_URL + `/${id}`,
     getEventAndTicketTypeDetails: (id) => PATH_URL+`/event/event-and-ticket-details/${id}`,
     createEvent: PATH_MY_EVENT + "/create",

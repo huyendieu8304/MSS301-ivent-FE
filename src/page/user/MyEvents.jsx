@@ -17,11 +17,13 @@ import LoadingComponent from "../../component/LoadingComponent.jsx";
 import TableComponent from "../../component/TableComponent.jsx";
 import { formatVNDateFromISO } from "../../common/FormatFunction.jsx";
 import { PAGE_SIZE_OPTIONS } from "../../common/Constant.jsx";
+import {getUserDataInLocalStorage} from "../../common/CommonFunction.jsx";
 
 const MyEvents = () => {
     const theme = useTheme();
     const navigate = useNavigate();
-    const { id: accountId } = useAuth();
+    const { id: accountId } = getUserDataInLocalStorage() || {};
+
 
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +36,7 @@ const MyEvents = () => {
         setIsSearching(false);
         if (accountId) {
             setIsLoading(true);
-            eventApi.getMyEvents(accountId, page, size, eventName, fetchSuccess, fetchFail);
+            eventApi.getMyEvents(page, size, eventName, fetchSuccess, fetchFail);
         }
     }, [accountId, isSearching]);
 

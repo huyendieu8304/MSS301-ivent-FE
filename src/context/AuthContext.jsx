@@ -6,6 +6,7 @@ const defaultAuthState = {
     isAuthenticated: false,
     authorities: null,
     email: "",
+    id:"",
     username: "",
     fullName: "",
 };
@@ -29,6 +30,7 @@ const decodeToken = (token) => {
                 email: decoded.email || decoded.preferred_username || "",
                 username: decoded.preferred_username || "",
                 fullName: decoded.name || "",
+                id: decoded.id || ""
             });
         } else {
             localStorage.clear();
