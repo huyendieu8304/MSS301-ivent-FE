@@ -34,4 +34,4 @@ export const DATETIME_FORMAT = "YYYY-MM-DDTHH:mm:ss";
 export const PAGE_SIZE_OPTIONS = [10,20,30,50];
 
 export const CLIENT_ID_KEYCLOAK = "ivent-authorization-code";
-export const CLIENT_SECRET_KEYCLOAK = import.meta.env.CLIENT_SECRET_KEYCLOAK;
+export const CLIENT_SECRET_KEYCLOAK = import.meta.env.VITE_CLIENT_SECRET_KEYCLOAK;
