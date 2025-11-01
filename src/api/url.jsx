@@ -1,11 +1,11 @@
 const PATH_URL = "/api/v1";
 const PATH_ACCOUNT_SERVICE_URL = "/api/v1/account";
+const PATH_BOOKING_SERVICE_URL = "/api/v1/booking";
 
 const PATH_EVENT_PUBLIC_URL = PATH_URL + "/event/public";
 const PATH_ADMIN = PATH_URL + "/admin";
 const PATH_CATEGORY = PATH_URL + "/event/category";
 const PATH_MY_EVENT = PATH_URL + "/event/my-event";
-const PATH_PAYMENT = PATH_URL + "/payment";
 const PATH_OPERATOR = PATH_URL + "/event/operator";
 
 export const url = {
@@ -21,6 +21,13 @@ export const url = {
     //KEYCLOAK
     getUserTokenFromKeycloak: "http://localhost:7000/realms/master/protocol/openid-connect/token",
     logoutKeycloak: "http://localhost:7000/realms/master/protocol/openid-connect/logout",
+    //BOOKING SERVICE
+    payment: PATH_BOOKING_SERVICE_URL+"/payment/vn-pay",
+    getPaymentDetails: (txnRefCode) => PATH_BOOKING_SERVICE_URL + `/payment/get-payment-details/${txnRefCode}`,
+    getMyTickets: (accountId, page = 0, size = 10) =>
+        `${PATH_BOOKING_SERVICE_URL}/ticket/my_tickets/${accountId}?page=${page}&size=${size}`,
+    getTicketDetail: (paymentId) =>
+        `${PATH_BOOKING_SERVICE_URL}/ticket/detail/${paymentId}`,
 
 
 
@@ -31,10 +38,7 @@ export const url = {
     getEventDetails: (id) => PATH_EVENT_PUBLIC_URL + `/${id}`,
     getEventAndTicketTypeDetails: (id) => PATH_URL+`/event/event-and-ticket-details/${id}`,
     createEvent: PATH_MY_EVENT + "/create",
-    getMyTickets: (accountId, page = 0, size = 10) =>
-        `${PATH_URL}/ticket/my_tickets/${accountId}?page=${page}&size=${size}`,
-    getTicketDetail: (paymentId) =>
-        `${PATH_URL}/ticket/detail/${paymentId}`,
+
     getMyEventDetail: (id) => `${PATH_MY_EVENT}/${id}`,
     updateMyEventDetail: PATH_MY_EVENT,
 
@@ -57,10 +61,6 @@ export const url = {
     createAdminAccount: PATH_ADMIN + "/create",
     banUser: "/api/v1/admin/ban",
     getUserAccounts: "/api/v1/admin/users-ban-list",
-
-    //PAYMENT
-    payment: PATH_PAYMENT+"/vn-pay",
-    getPaymentDetails: (txnRefCode) => PATH_PAYMENT + `/get-payment-details/${txnRefCode}`,
 
     //COMMON
     getCategories: PATH_CATEGORY + "/",

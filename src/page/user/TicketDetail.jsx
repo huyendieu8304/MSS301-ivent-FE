@@ -99,16 +99,18 @@ const TicketDetail = () => {
                                             Tổng giá vé: {formatCurrency(ticket.amount, "đ")}
                                         </Typography>
                                     </Stack>
-                                    <Box
-                                        component="img"
-                                        src={ticket.qrUrl}
-                                        alt="ticket qr"
-                                        sx={{
-                                            width: "40%",
-                                            height: "auto",
-                                            margin: "0 !important"
-                                        }}
-                                    />
+                                    {ticket.qrUrl && (
+                                        <Box
+                                            component="img"
+                                            src={ticket.qrUrl}
+                                            alt="ticket qr"
+                                            sx={{
+                                                width: "40%",
+                                                height: "auto",
+                                                margin: "0 !important"
+                                            }}
+                                        />
+                                    )}
                                 </Stack>
                             </Stack>
                     )
