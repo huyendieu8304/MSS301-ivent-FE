@@ -18,6 +18,16 @@ export const url = {
     forgotPasswordRequest: PATH_ACCOUNT_SERVICE_URL + "/forgot-password",
     setPassword: PATH_ACCOUNT_SERVICE_URL + "/set-password",
     changePassword: PATH_ACCOUNT_SERVICE_URL + "/change-password",
+    // ADMIN
+    adminAccount: ( page = 0, size = 10)=> `${PATH_ACCOUNT_SERVICE_URL}/account?page=${page}&size=${size}`,
+    getRoleStatistic: PATH_ACCOUNT_SERVICE_URL + "/by-role",
+    getStatusAccountStatistic: PATH_ACCOUNT_SERVICE_URL + "/by-status",
+    getOrganizerStatistic: PATH_ACCOUNT_SERVICE_URL + "/organizer-event-count",
+    getPaymentStatistic: PATH_ACCOUNT_SERVICE_URL + "/total-payment-by-account",
+    createAdminAccount: PATH_ACCOUNT_SERVICE_URL + "/create",
+    banUser:  PATH_ACCOUNT_SERVICE_URL +"/ban",
+    getUserAccounts: PATH_ACCOUNT_SERVICE_URL + "/users-ban-list",
+
     //KEYCLOAK
     getUserTokenFromKeycloak: "http://localhost:7000/realms/master/protocol/openid-connect/token",
     logoutKeycloak: "http://localhost:7000/realms/master/protocol/openid-connect/logout",
@@ -47,16 +57,6 @@ export const url = {
     getStatusStatistic: PATH_OPERATOR + "/by-status",
     getMonthStatistic: PATH_OPERATOR + "/by-month",
     getCategoryStatistic: PATH_OPERATOR + "/by-category",
-
-    // ADMIN
-    adminAccount: ( page = 0, size = 10)=> `${PATH_ADMIN}/account?page=${page}&size=${size}`,
-    getRoleStatistic: PATH_ADMIN + "/by-role",
-    getStatusAccountStatistic: PATH_ADMIN + "/by-status",
-    getOrganizerStatistic: PATH_ADMIN + "/organizer-event-count",
-    getPaymentStatistic: PATH_ADMIN + "/total-payment-by-account",
-    createAdminAccount: PATH_ADMIN + "/create",
-    banUser: "/api/v1/admin/ban",
-    getUserAccounts: "/api/v1/admin/users-ban-list",
 
     //PAYMENT
     payment: PATH_PAYMENT+"/vn-pay",
