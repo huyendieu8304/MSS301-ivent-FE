@@ -17,10 +17,12 @@ import TableComponent from "../../component/TableComponent.jsx";
 import {formatVNDateFromISO} from "../../common/FormatFunction.jsx";
 import {useNavigate} from "react-router-dom";
 import {PAGE_SIZE_OPTIONS} from "../../common/Constant.jsx";
+import {getUserDataInLocalStorage} from "../../common/CommonFunction.jsx";
 
 const MyTickets = () => {
     const theme = useTheme();
-    const {id: accountId} = useAuth();
+    // const {id: accountId} = useAuth();
+    const { id: accountId } = getUserDataInLocalStorage() || {};
     const [data, setData] = useState(null);
     const [page, setPage] = useState(0);
     const [size, setSize] = useState(PAGE_SIZE_OPTIONS.at(1));
