@@ -23,7 +23,7 @@ export const url = {
     getRoleStatistic: PATH_ACCOUNT_SERVICE_URL + "/by-role",
     getStatusAccountStatistic: PATH_ACCOUNT_SERVICE_URL + "/by-status",
     getOrganizerStatistic: PATH_ACCOUNT_SERVICE_URL + "/organizer-event-count",
-    getPaymentStatistic: PATH_ACCOUNT_SERVICE_URL + "/total-payment-by-account",
+    getPaymentStatistic: PATH_ACCOUNT_SERVICE_URL + "/by-month",
     createAdminAccount: PATH_ACCOUNT_SERVICE_URL + "/create",
     banUser:  PATH_ACCOUNT_SERVICE_URL +"/ban",
     getUserAccounts: PATH_ACCOUNT_SERVICE_URL + "/users-ban-list",
