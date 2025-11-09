@@ -1,10 +1,9 @@
-
-import {Link, Outlet, useNavigate} from "react-router";
+import {Link, Outlet} from "react-router";
 import {
   Dashboard as DashboardIcon,
 } from '@mui/icons-material';
 import {
-    Box, Button,
+    Box,
     Divider, Drawer,
     ListItem, ListItemButton, ListItemIcon, ListItemText,
     Stack,
@@ -19,38 +18,15 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import AvatarMenu from "../component/AvatarMenu.jsx";
 import LoadingComponent from "../component/LoadingComponent.jsx";
-import authSettingApi from "../api/service/authSettingApi.jsx";
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import SettingsIcon from '@mui/icons-material/Settings';
-import LogoutIcon from '@mui/icons-material/Logout';
 const drawerWidth = 240;
 
 const AdminLayout = () => {
   const [pageTitle, setPageTitle] = useState("Trang quản trị viên");
-  const { authorities, logout } = useAuth();
+  const { authorities } = useAuth();
   const theme = useTheme();
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-
-  const handleLogout = () => {
-    authSettingApi.logout(LogoutSuccess, LogoutFail);
-    setIsLoading(true);
-  };
-
-  const LogoutSuccess = (data) => {
-    logout();
-    console.log(data);
-  };
-
-  const LogoutFail = (e) => {
-    console.log(e);
-    navigate("/error", {
-      state: {
-        message: e.response?.data?.message || "Đã xảy ra lỗi.",
-        code: e.status || 500,
-      }
-    });
-  };
 
   return (
     <>
@@ -123,13 +99,6 @@ const AdminLayout = () => {
               <ListItemButton component={Link} to="/admin/users-ban-list">
                 <ListItemIcon><SettingsIcon /></ListItemIcon>
                 <ListItemText primary="Danh sách người dùng" />
-              </ListItemButton>
-            </ListItem>
-
-            <ListItem disablePadding>
-              <ListItemButton onClick={handleLogout}>
-                <ListItemIcon><LogoutIcon /></ListItemIcon>
-                <ListItemText primary="Đăng xuất" />
               </ListItemButton>
             </ListItem>
           </List>
