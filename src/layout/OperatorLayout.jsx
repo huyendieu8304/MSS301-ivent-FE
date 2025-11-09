@@ -12,7 +12,6 @@ import {
     Event as EventIcon,
     CheckCircle as CheckCircleIcon,
     AccountCircle as AccountCircleIcon,
-    Logout as LogoutIcon,
     ListAlt as ListAltIcon,
 } from '@mui/icons-material';
 
@@ -24,34 +23,16 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import AvatarMenu from "../component/AvatarMenu.jsx";
 import LoadingComponent from "../component/LoadingComponent.jsx";
-import authSettingApi from "../api/service/authSettingApi.jsx";
 
 const drawerWidth = 240;
 
 const OperatorLayout = () => {
     const [pageTitle, setPageTitle] = useState("");
-    const {authorities, logout} = useAuth();
+    const {authorities} = useAuth();
     const theme = useTheme();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
-    const handleLogout = () => {
-        authSettingApi.logout(LogoutSuccess, LogoutFail);
-        setIsLoading(true);
-    }
-    const LogoutSuccess = (data) => {
-        logout();
-        console.log(data);
-    }
 
-    const LogoutFail = (e) => {
-        console.log(e);
-        navigate("/error", {
-            state: {
-                message: e.response.data.message,
-                code: e.status,
-            }
-        })
-    }
     return (
         <>
             <Box sx={{ display: 'flex', minHeight: "100dvh", margin: 0, padding: 0 }}>
@@ -161,12 +142,6 @@ const OperatorLayout = () => {
                             <ListItemButton component={Link} to="/event">
                                 <ListItemIcon><ListAltIcon /></ListItemIcon>
                                 <ListItemText primary="Danh sách sự kiện" />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemButton onClick={handleLogout}>
-                                <ListItemIcon><LogoutIcon /></ListItemIcon>
-                                <ListItemText primary="Đăng xuất" />
                             </ListItemButton>
                         </ListItem>
                     </List>

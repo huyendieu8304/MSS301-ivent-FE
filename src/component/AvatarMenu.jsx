@@ -1,4 +1,4 @@
-import {Avatar, Box, IconButton, Menu, MenuItem, Stack, Tooltip, Typography, useTheme} from "@mui/material";
+import {Avatar, Box, IconButton, Menu, MenuItem, Tooltip, Typography, useTheme} from "@mui/material";
 import {useState} from "react";
 import {useAuth} from "../context/AuthContext.jsx";
 import authSettingApi from "../api/service/authSettingApi.jsx";
@@ -9,7 +9,7 @@ import {CLIENT_ID_KEYCLOAK, CLIENT_SECRET_KEYCLOAK, CONSTANTS} from "../common/C
 const AvatarMenu = ({setIsLoading}) => {
     const [anchorElUser, setAnchorElUser] = useState(null);
     const {logout} = useAuth();
-    const { avatarUrl } = getUserDataInLocalStorage() || {};
+    const {avatarUrl, role} = getUserDataInLocalStorage() || {};
     const theme = useTheme();
     const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ const AvatarMenu = ({setIsLoading}) => {
 
     const handleLogout = () => {
         handleCloseUserMenu();
-        const body= {
+        const body = {
             client_id: CLIENT_ID_KEYCLOAK,
             client_secret: CLIENT_SECRET_KEYCLOAK,
             refresh_token: localStorage.getItem(CONSTANTS.REFRESH_TOKEN),
@@ -74,32 +74,36 @@ const AvatarMenu = ({setIsLoading}) => {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                 >
-                    <MenuItem onClick={() => {
-                        handleCloseUserMenu();
-                        navigate("/my-bought-tickets");
-                    }}>
-                        <Typography sx={{
-                            textAlign: 'center',
-                            color: theme.palette.primary.main,
-                            margin: "0 6px"
-                        }}>
-                            Vé đã mua
-                        </Typography>
-                    </MenuItem>
-                    <MenuItem onClick={() => {
-                        handleCloseUserMenu(); 
-                        navigate("/organizer/my-events");
-                    }}>
-                        <Typography
-                            sx={{
-                                textAlign: 'center',
-                                color: theme.palette.primary.main,
-                                margin: "0 6px"
-                                }}
-                        >
-                            Sự kiện của tôi
-                        </Typography>
-                    </MenuItem>
+                    {role === "ROLE_USER" && (
+                        <>
+                            <MenuItem onClick={() => {
+                                handleCloseUserMenu();
+                                navigate("/my-bought-tickets");
+                            }}>
+                                <Typography sx={{
+                                    textAlign: 'center',
+                                    color: theme.palette.primary.main,
+                                    margin: "0 6px"
+                                }}>
+                                    Vé đã mua
+                                </Typography>
+                            </MenuItem>
+                            <MenuItem onClick={() => {
+                                handleCloseUserMenu();
+                                navigate("/organizer/my-events");
+                            }}>
+                                <Typography
+                                    sx={{
+                                        textAlign: 'center',
+                                        color: theme.palette.primary.main,
+                                        margin: "0 6px"
+                                    }}
+                                >
+                                    Sự kiện của tôi
+                                </Typography>
+                            </MenuItem>
+                        </>
+                    )}
                     <MenuItem onClick={() => navigate("/profile")}>
                         <Typography sx={{
                             textAlign: 'center',

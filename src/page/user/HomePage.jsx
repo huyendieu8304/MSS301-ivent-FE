@@ -1,11 +1,11 @@
 import {Container, ImageList, Typography} from "@mui/material";
-import FakeData from "../../FakeData.jsx";
 import EventCard from "../../component/EventCard.jsx";
 import CardSliderReactSlick from "../../component/cardSlider/CardSliderReactSlick.jsx";
 import {useEffect, useState} from "react";
 import eventApi from "../../api/service/eventApi.jsx";
 import {useNavigate} from "react-router";
 import LoadingComponent from "../../component/LoadingComponent.jsx";
+import {getUserDataInLocalStorage} from "../../common/CommonFunction.jsx";
 
 const HomePage = () => {
 
@@ -13,10 +13,19 @@ const HomePage = () => {
     const [categoryEvents, setCategoryEvents] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    const {role} = getUserDataInLocalStorage() || {};
     useEffect(() => {
         setIsLoading(true);
         eventApi.getHomePageData(getDataSuccess, getEventDetailFailure)
     }, []);
+    useEffect(() => {
+        if(role === "ROLE_ADMIN"){
+            navigate("/admin/statistic");
+        }
+        if(role === "ROLE_OPERATOR"){
+            navigate("/operator");
+        }
+    }, [role, navigate]);
 
     const getDataSuccess = (data) => {
         setLatestEvents(data.latestEvents);
