@@ -4,7 +4,7 @@ import {useAuth} from "../context/AuthContext.jsx";
 import authSettingApi from "../api/service/authSettingApi.jsx";
 import {useNavigate} from "react-router";
 import {getUserDataInLocalStorage} from "../common/CommonFunction.jsx";
-import {CLIENT_ID_KEYCLOAK, CLIENT_SECRET_KEYCLOAK, CONSTANTS} from "../common/Constant.jsx";
+import {CLIENT_ID_KEYCLOAK, CLIENT_SECRET_KEYCLOAK, CONSTANTS, ROLES} from "../common/Constant.jsx";
 
 const AvatarMenu = ({setIsLoading}) => {
     const [anchorElUser, setAnchorElUser] = useState(null);
@@ -74,7 +74,7 @@ const AvatarMenu = ({setIsLoading}) => {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                 >
-                    {role === "ROLE_USER" && (
+                    {role === ROLES.USER ? (
                         <>
                             <MenuItem onClick={() => {
                                 handleCloseUserMenu();
@@ -103,7 +103,29 @@ const AvatarMenu = ({setIsLoading}) => {
                                 </Typography>
                             </MenuItem>
                         </>
-                    )}
+                    )
+                        :(
+                            <MenuItem onClick={() => {
+                                handleCloseUserMenu();
+                                if(role === ROLES.ADMIN){
+                                    navigate("/admin/statistic");
+                                }
+                                if(role === ROLES.OPERATOR){
+                                    navigate("/operator");
+                                }
+                            }}>
+                                <Typography
+                                    sx={{
+                                        textAlign: 'center',
+                                        color: theme.palette.primary.main,
+                                        margin: "0 6px"
+                                    }}
+                                >
+                                    Dashboard
+                                </Typography>
+                            </MenuItem>
+                        )
+                    }
                     <MenuItem onClick={() => navigate("/profile")}>
                         <Typography sx={{
                             textAlign: 'center',

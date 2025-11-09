@@ -40,7 +40,7 @@ import {ROLES} from "./common/Constant.jsx";
 const routeDefinitions = createRoutesFromElements(
     <Route>
         {/*WITH ALL ROLE*/}
-        <Route element={<ProtectedRoute allowedRole={[ROLES.USER, ROLES.ADMIN]}/>}>
+        <Route element={<ProtectedRoute allowedRole={[ROLES.USER, ROLES.ADMIN, ROLES.OPERATOR]}/>}>
             <Route
                 element={
                     <Suspense fallback={<LoadingComponent />}>

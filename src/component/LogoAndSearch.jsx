@@ -3,11 +3,14 @@ import {Link, useNavigate} from "react-router";
 import {useEffect, useState} from "react";
 import {useSearchParams} from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
+import {ROLES} from "../common/Constant.jsx";
+import {getUserDataInLocalStorage} from "../common/CommonFunction.jsx";
 
 const LogoAndSearch = () => {
     const [searchName, setSearchName] = useState("");
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
+    const {role} = getUserDataInLocalStorage() || {};
 
     useEffect(() => {
         const queryName = searchParams.get("name") || "";
@@ -37,32 +40,34 @@ const LogoAndSearch = () => {
                 </Typography>
             </Link>
         </Stack>
-        <Paper
-            component="form"
-            onSubmit={handleSearch}
-            sx={{p: '0px 4px', display: 'flex', alignItems: 'center', width: 400}}
-        >
-            <SearchIcon sx={{p: '10px', color: "#BDBDBD"}}/>
-            <InputBase
-                sx={{ml: 1, flex: 1}}
-                placeholder="Bạn tìm gì hôm nay?"
-                value={searchName}
-                onChange={(e) => setSearchName(e.target.value)}
-            />
-            <Divider sx={{height: 28, m: 0.5}} orientation="vertical"/>
-            <Button onClick={handleSearch}
-                    sx={{
-                        textTransform: "none",
-                        borderRadius: "10px"
-                    }}>
-                <Typography
-                    variant="subtitle1"
-                    sx={{color: "black", fontFamily: 'Arial', fontSize: "14px"}}
-                >
-                    Tìm kiếm
-                </Typography>
-            </Button>
-        </Paper>
+        {role !== ROLES.ADMIN && role !== ROLES.OPERATOR &&
+            <Paper
+                component="form"
+                onSubmit={handleSearch}
+                sx={{p: '0px 4px', display: 'flex', alignItems: 'center', width: 400}}
+            >
+                <SearchIcon sx={{p: '10px', color: "#BDBDBD"}}/>
+                <InputBase
+                    sx={{ml: 1, flex: 1}}
+                    placeholder="Bạn tìm gì hôm nay?"
+                    value={searchName}
+                    onChange={(e) => setSearchName(e.target.value)}
+                />
+                <Divider sx={{height: 28, m: 0.5}} orientation="vertical"/>
+                <Button onClick={handleSearch}
+                        sx={{
+                            textTransform: "none",
+                            borderRadius: "10px"
+                        }}>
+                    <Typography
+                        variant="subtitle1"
+                        sx={{color: "black", fontFamily: 'Arial', fontSize: "14px"}}
+                    >
+                        Tìm kiếm
+                    </Typography>
+                </Button>
+            </Paper>
+        }
     </>)
 }
 export default LogoAndSearch;

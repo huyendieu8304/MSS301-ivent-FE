@@ -12,13 +12,15 @@ import AvatarMenu from "../component/AvatarMenu.jsx";
 import LoadingComponent from "../component/LoadingComponent.jsx";
 import {useState} from "react";
 import LogoAndSearch from "../component/LogoAndSearch.jsx";
+import {ROLES} from "../common/Constant.jsx";
+import {getUserDataInLocalStorage} from "../common/CommonFunction.jsx";
 
 const MainLayout = () => {
     const {authorities} = useAuth();
     const theme = useTheme();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
-
+    const {role} = getUserDataInLocalStorage() || {};
     const year = new Date().getFullYear();
 
     return (
@@ -45,32 +47,35 @@ const MainLayout = () => {
                         <LogoAndSearch/>
                         {authorities ?
                             <>
-                                <Stack direction="row" spacing={3}>
-                                    <Button variant="outlined"
-                                            sx={{textTransform: "none", borderColor: "white", borderRadius: "10px"}}
-                                        onClick={() => navigate("/organizer/create-event")}
-                                    >
-                                        <Typography
-                                            variant="subtitle1"
-                                            sx={{color: "white", fontFamily: 'Arial', fontSize: "14px"}}
+                                {role === ROLES.USER &&
+                                    <Stack direction="row" spacing={3}>
+                                        <Button variant="outlined"
+                                                sx={{textTransform: "none", borderColor: "white", borderRadius: "10px"}}
+                                                onClick={() => navigate("/organizer/create-event")}
                                         >
-                                            Tạo sự kiện
-                                        </Typography>
-                                    </Button>
-                                    <Button sx={{textTransform: "none", borderColor: "white", padding: 0}} onClick={()=> navigate("/my-bought-tickets")}>
-                                        <Stack direction="row" spacing={0.5} justifyContent="center"
-                                               alignItems="center">
-                                            <TicketIconSvg style={{color: "white", fontSize: "20px"}}/>
                                             <Typography
                                                 variant="subtitle1"
                                                 sx={{color: "white", fontFamily: 'Arial', fontSize: "14px"}}
                                             >
-                                                Vé đã mua
+                                                Tạo sự kiện
                                             </Typography>
-                                        </Stack>
-                                    </Button>
-                                </Stack>
-                                <AvatarMenu setIsLoading={setIsLoading} />
+                                        </Button>
+                                        <Button sx={{textTransform: "none", borderColor: "white", padding: 0}}
+                                                onClick={() => navigate("/my-bought-tickets")}>
+                                            <Stack direction="row" spacing={0.5} justifyContent="center"
+                                                   alignItems="center">
+                                                <TicketIconSvg style={{color: "white", fontSize: "20px"}}/>
+                                                <Typography
+                                                    variant="subtitle1"
+                                                    sx={{color: "white", fontFamily: 'Arial', fontSize: "14px"}}
+                                                >
+                                                    Vé đã mua
+                                                </Typography>
+                                            </Stack>
+                                        </Button>
+                                    </Stack>
+                                }
+                                <AvatarMenu setIsLoading={setIsLoading}/>
                             </>
                             :
                             <Stack direction="row" spacing={0.5} justifyContent="center" alignItems="center">
@@ -97,7 +102,7 @@ const MainLayout = () => {
                 overflowY: "auto",
                 backgroundColor: theme.palette.backgroundColor.main,
             }}>
-                <Box component="main" sx={{minHeight:"85vh", }}>
+                <Box component="main" sx={{minHeight: "85vh",}}>
                     <Box sx={{padding: "24px"}}>
                         <Outlet/>
                     </Box>

@@ -133,7 +133,7 @@ const OperatorLayout = () => {
                     <Divider />
                     <List>
                         <ListItem disablePadding>
-                            <ListItemButton component={Link} to="#">
+                            <ListItemButton component={Link} to="/profile">
                                 <ListItemIcon><AccountCircleIcon /></ListItemIcon>
                                 <ListItemText primary="Thông tin tài khoản" />
                             </ListItemButton>

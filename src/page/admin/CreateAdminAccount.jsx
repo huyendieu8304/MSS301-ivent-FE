@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import Badge from "@mui/material/Badge";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import { useNavigate } from "react-router-dom";
 import ValidationTextField from "../../component/validateInput/ValidationTextField.jsx";
 import { ValidateDatePicker } from "../../component/validateInput/ValidateDatePicker.jsx";
 import ValidateRadioGroup from "../../component/validateInput/ValidateRadioGroup.jsx";
@@ -31,23 +30,23 @@ import { DATE_FORMAT, MESSAGE_TYPES } from "../../common/Constant.jsx";
 import MascotSvg from "../../component/svg/MascotSvg.jsx";
 import adminApi from "../../api/service/adminApi.jsx";
 
+const initialForm = {
+    email: { value: "", error: "" },
+    password: { value: "", error: "" },
+    fullName: { value: "", error: "" },
+    phone: { value: "", error: "" },
+    dob: { value: null, error: "" },
+    gender: { value: "", error: "" }
+}
 
 const CreateAdminAccount = () => {
     const theme = useTheme();
-    const navigate = useNavigate();
     const inputRef = useRef();
     const [isLoading, setIsLoading] = useState(false);
     const [avatarPreview, setAvatarPreview] = useState(null);
     const [imageFile, setImageFile] = useState(null);
 
-    const [formFields, setFormFields] = useState({
-        email: { value: "", error: "" },
-        password: { value: "", error: "" },
-        fullName: { value: "", error: "" },
-        phone: { value: "", error: "" },
-        dob: { value: null, error: "" },
-        gender: { value: "", error: "" }
-    });
+    const [formFields, setFormFields] = useState(initialForm);
 
     const updateField = (fieldName, newValue) => {
         setFormFields((prev) => ({
@@ -108,7 +107,9 @@ const CreateAdminAccount = () => {
     const handleSuccess = () => {
         messageService.showMessage(Messages.MSG_I_00013, MESSAGE_TYPES.INFO);
         setIsLoading(false);
-        navigate("/admin/create-admin-account");
+        setFormFields(initialForm);
+        setAvatarPreview(null);
+        setImageFile(null);
     };
 
     const handleFail = () => {
