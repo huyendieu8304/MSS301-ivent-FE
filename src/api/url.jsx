@@ -1,9 +1,7 @@
 const PATH_URL = "/api/v1";
-const PATH_ACCOUNT_SERVICE_URL = "/api/v1/account";
-const PATH_BOOKING_SERVICE_URL = "/api/v1/booking";
-
+const PATH_ACCOUNT_SERVICE_URL = PATH_URL + "/account";
+const PATH_BOOKING_SERVICE_URL = PATH_URL + "/booking";
 const PATH_EVENT_PUBLIC_URL = PATH_URL + "/event/public";
-const PATH_ADMIN = PATH_URL + "/admin";
 const PATH_CATEGORY = PATH_URL + "/event/category";
 const PATH_MY_EVENT = PATH_URL + "/event/my-event";
 const PATH_OPERATOR = PATH_URL + "/event/operator";
@@ -27,10 +25,11 @@ export const url = {
     createAdminAccount: PATH_ACCOUNT_SERVICE_URL + "/create",
     banUser:  PATH_ACCOUNT_SERVICE_URL +"/ban",
     getUserAccounts: PATH_ACCOUNT_SERVICE_URL + "/users-ban-list",
-
     //KEYCLOAK
-    getUserTokenFromKeycloak: "http://localhost:7000/realms/master/protocol/openid-connect/token",
-    logoutKeycloak: "http://localhost:7000/realms/master/protocol/openid-connect/logout",
+    // getUserTokenFromKeycloak: "http://localhost:7000/realms/master/protocol/openid-connect/token",
+    // logoutKeycloak: "http://localhost:7000/realms/master/protocol/openid-connect/logout",
+    getUserTokenFromKeycloak: import.meta.env.VITE_KEYCLOAK_TOKEN_URL,
+    logoutKeycloak: import.meta.env.VITE_KEYCLOAK_LOGOUT_URL,
     //BOOKING SERVICE
     payment: PATH_BOOKING_SERVICE_URL+"/payment/vn-pay",
     getPaymentDetails: (txnRefCode) => PATH_BOOKING_SERVICE_URL + `/payment/get-payment-details/${txnRefCode}`,
@@ -38,9 +37,6 @@ export const url = {
         `${PATH_BOOKING_SERVICE_URL}/ticket/my_tickets/${accountId}?page=${page}&size=${size}`,
     getTicketDetail: (paymentId) =>
         `${PATH_BOOKING_SERVICE_URL}/ticket/detail/${paymentId}`,
-
-
-
     //EVENT - USER dùng
     searchEvent: PATH_EVENT_PUBLIC_URL + "/search",
     getMyEvents: (page = 0, size = 10) =>
@@ -51,7 +47,6 @@ export const url = {
 
     getMyEventDetail: (id) => `${PATH_MY_EVENT}/${id}`,
     updateMyEventDetail: PATH_MY_EVENT,
-
     //EVENT - OPERATOR  
     operatorEvent: (page = 0, size = 10)=> `${PATH_OPERATOR}/event?page=${page}&size=${size}`,
     operatorEventDetails: (eventId) => PATH_OPERATOR +`/${eventId}`,

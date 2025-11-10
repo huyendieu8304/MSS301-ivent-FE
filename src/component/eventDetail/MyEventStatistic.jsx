@@ -3,13 +3,6 @@ import {BarChart} from '@mui/x-charts/BarChart';
 import { PieChart } from '@mui/x-charts/PieChart';
 import {formatMoney} from "../../common/FormatFunction.jsx";
 
-
-const fakeData = [
-    {name: "Vé loại 1", totalQuantity: 50, remain: 20, price: 100000},
-    {name: "Vé loại 2", totalQuantity: 80, remain: 20, price: 100000},
-    {name: "Vé loại 3", totalQuantity: 70, remain: 0, price: 100000}
-];
-
 function MyEventStatistic({ticketTypes}) {
     // const  ticketTypes = fakeData
 

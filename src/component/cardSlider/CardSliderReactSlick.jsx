@@ -7,15 +7,6 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import {useNavigate} from "react-router";
 
-const images = [
-    {id: 1, url: "https://salt.tkbcdn.com/ts/ds/5a/37/c6/b5239073da24a288542c3a3a5aaa21d5.png"},
-    {id: 2, url: "https://salt.tkbcdn.com/ts/ds/5a/37/c6/b5239073da24a288542c3a3a5aaa21d5.png"},
-    {id: 3, url: "https://salt.tkbcdn.com/ts/ds/5a/37/c6/b5239073da24a288542c3a3a5aaa21d5.png"},
-    {id: 4, url: "https://salt.tkbcdn.com/ts/ds/5a/37/c6/b5239073da24a288542c3a3a5aaa21d5.png"},
-    {id: 5, url: "https://salt.tkbcdn.com/ts/ds/5a/37/c6/b5239073da24a288542c3a3a5aaa21d5.png"},
-    {id: 6, url: "https://salt.tkbcdn.com/ts/ds/5a/37/c6/b5239073da24a288542c3a3a5aaa21d5.png"},
-];
-
 const PrevArrow = ({onClick}) => (
     <IconButton
         onClick={onClick}
