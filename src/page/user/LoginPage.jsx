@@ -16,6 +16,8 @@ import ConfirmModal from "../../component/ConfirmModal.jsx";
 import accountSettingApi from "../../api/service/accountSettingApi.jsx";
 import {checkRole} from "../../common/CommonFunction.jsx";
 
+const logginWGGurlBe = window._env_?.VITE_LOGIN_W_GG_BE || import.meta.env.VITE_LOGIN_W_GG_BE
+
 const LoginPage = () => {
     const theme = useTheme();
     const [isLoading, setIsLoading] = useState(false);
