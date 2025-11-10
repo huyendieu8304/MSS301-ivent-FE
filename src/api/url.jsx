@@ -28,8 +28,8 @@ export const url = {
     //KEYCLOAK
     // getUserTokenFromKeycloak: "http://localhost:7000/realms/master/protocol/openid-connect/token",
     // logoutKeycloak: "http://localhost:7000/realms/master/protocol/openid-connect/logout",
-    getUserTokenFromKeycloak: import.meta.env.VITE_KEYCLOAK_TOKEN_URL,
-    logoutKeycloak: import.meta.env.VITE_KEYCLOAK_LOGOUT_URL,
+    getUserTokenFromKeycloak: window._env_?.VITE_KEYCLOAK_TOKEN_URL || import.meta.env.VITE_KEYCLOAK_TOKEN_URL,
+    logoutKeycloak: window._env_?.VITE_KEYCLOAK_LOGOUT_URL || import.meta.env.VITE_KEYCLOAK_LOGOUT_URL,
     //BOOKING SERVICE
     payment: PATH_BOOKING_SERVICE_URL+"/payment/vn-pay",
     getPaymentDetails: (txnRefCode) => PATH_BOOKING_SERVICE_URL + `/payment/get-payment-details/${txnRefCode}`,
