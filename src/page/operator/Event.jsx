@@ -45,6 +45,18 @@ const EventListPage = () => {
                         label = "Denied";
                         color = "red";
                         break;
+                    case "SELLING":
+                        label = "Selling";
+                        color = theme.palette.primary.main;
+                        break;
+                    case "ONGOING":
+                        label = "On-going";
+                        color = theme.palette.primary.main;
+                        break;
+                    case "BANNED":
+                        label = "Banned";
+                        color = "red";
+                        break;
                     case "PENDING":
                     default:
                         label = "Pending";
